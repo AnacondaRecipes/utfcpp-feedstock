@@ -13,7 +13,6 @@ source:
 
 build:
   number: 0
-  skip: true  # [osx and x86_64]
   # Only headers and CMake metadata are installed, not compiler-built binaries.
   ignore_run_exports_from:
     - {{ compiler('cxx') }}
