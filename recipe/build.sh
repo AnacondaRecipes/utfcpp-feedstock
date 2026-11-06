@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -exo pipefail
 
 cmake ${CMAKE_ARGS} -G Ninja -S . -B build \
   -DCMAKE_INSTALL_PREFIX="$PREFIX" \

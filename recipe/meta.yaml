@@ -28,12 +28,24 @@ requirements:
 test:
   commands:
     # Verify headers are installed.
-    - test -f $PREFIX/include/utf8.h             # [unix]
-    - test -d $PREFIX/include/utf8               # [unix]
-    - test -f $PREFIX/share/utf8cpp/cmake/utf8cppConfig.cmake  # [unix]
-    - if not exist %LIBRARY_INC%\\utf8.h exit 1  # [win]
-    - if not exist %LIBRARY_INC%\\utf8 exit 1    # [win]
-    - if not exist %LIBRARY_PREFIX%\\share\\utf8cpp\\cmake\\utf8cppConfig.cmake exit 1  # [win]
+    # Verify both include layouts: the legacy one used by pre-4.0 consumers,
+    # and the canonical one the exported CMake target points at.
+    - test -f $PREFIX/include/utf8.h                 # [unix]
+    - test -d $PREFIX/include/utf8                   # [unix]
+    - test -f $PREFIX/include/utf8cpp/utf8.h         # [unix]
+    - test -d $PREFIX/include/utf8cpp/utf8           # [unix]
+    # Verify the complete CMake package: the config includes the targets file,
+    # and find_package() also loads the version file.
+    - test -f $PREFIX/share/utf8cpp/cmake/utf8cppConfig.cmake         # [unix]
+    - test -f $PREFIX/share/utf8cpp/cmake/utf8cppConfigVersion.cmake  # [unix]
+    - test -f $PREFIX/share/utf8cpp/cmake/utf8cppTargets.cmake        # [unix]
+    - if not exist %LIBRARY_INC%\\utf8.h exit 1                     # [win]
+    - if not exist %LIBRARY_INC%\\utf8 exit 1                       # [win]
+    - if not exist %LIBRARY_INC%\\utf8cpp\\utf8.h exit 1            # [win]
+    - if not exist %LIBRARY_INC%\\utf8cpp\\utf8 exit 1              # [win]
+    - if not exist %LIBRARY_PREFIX%\\share\\utf8cpp\\cmake\\utf8cppConfig.cmake exit 1         # [win]
+    - if not exist %LIBRARY_PREFIX%\\share\\utf8cpp\\cmake\\utf8cppConfigVersion.cmake exit 1  # [win]
+    - if not exist %LIBRARY_PREFIX%\\share\\utf8cpp\\cmake\\utf8cppTargets.cmake exit 1        # [win]
 
 about:
   home: https://github.com/nemtrif/utfcpp
